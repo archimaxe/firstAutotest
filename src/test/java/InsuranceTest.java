@@ -68,30 +68,25 @@ public class InsuranceTest {
         driver.findElement(By.xpath("//*[@class = 'btn btn-primary btn-large']")).click();  // иногда не срабатывает c ChromeDriver? В Firefox - ок
 
         // Вводим данные
-        /*
-•       Данные страхователя: Фамилия, Имя, Отчество, Дата рождения, Пол
-•       Паспортные данные
-         */
+        Thread.sleep(2000);
         WebElement field = driver.findElement(By.id("surname_vzr_ins_0"));
         wait.until(ExpectedConditions.visibilityOf(field));
         fillField(By.id("surname_vzr_ins_0"), "Иванов");
         fillField(By.id("name_vzr_ins_0"), "Иван");
         fillField(By.id("birthDate_vzr_ins_0"), "20.10.1999");
 
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         fillField(By.id("person_lastName"), "Страховщиков");
         fillField(By.id("person_firstName"), "Страховщик");
         fillField(By.id("person_middleName"), "Страховщикович");
         fillField(By.id("person_birthDate"), "10.06.1979");
 
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         driver.findElement(By.xpath("//*[text() = 'Женский']")).click();
         fillField(By.id("passportSeries"), "4545");
         fillField(By.id("passportNumber"), "200000");
         fillField(By.id("documentDate"), "10.06.2019");
         fillField(By.id("documentIssue"), "ТП УФМС AUTOTEST123");
-
-
 
         // Проверяем заполнение полей
         Assert.assertEquals("Иванов", driver.findElement(By.id("surname_vzr_ins_0")).getAttribute("value"));
@@ -111,15 +106,13 @@ public class InsuranceTest {
         driver.findElement(By.xpath("//*[@class = 'btn btn-primary page__btn']")).click();
 
         // Проверяем появление ошибок заполнения
-        scroll.executeScript("window.scrollBy(0,1550)", "");
+        scroll.executeScript("window.scrollBy(0,1050)", "");
         WebElement errorField = driver.findElement(By.xpath("//*[@class = 'alert-form alert-form-error']"));
         wait.until(ExpectedConditions.visibilityOf(errorField));
         Assert.assertEquals("При заполнении данных произошла ошибка",
                 driver.findElement(By.xpath("//*[@class = 'alert-form alert-form-error']")).getText());
         Assert.assertEquals("Поле не заполнено.",
                 driver.findElement(By.xpath("//*[text()='Поле не заполнено.']/..//*[@class = 'invalid-validate form-control__message']")).getText()); // не смог найти оригинальный xpath
-
-
     }
 
     public void fillField(By locator, String value){

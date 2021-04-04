@@ -30,7 +30,7 @@ public class InsuranceTest {
     }
 
     @Test
-    public void testInsurance() {
+    public void testInsurance() throws InterruptedException {
         // Нажимаем на Страхование
         driver.findElement(By.xpath("//*[@aria-label = 'Страхование']")).click();
 
@@ -68,16 +68,43 @@ public class InsuranceTest {
         driver.findElement(By.xpath("//*[@class = 'btn btn-primary btn-large']")).click();  // иногда не срабатывает c ChromeDriver? В Firefox - ок
 
         // Вводим данные
+        /*
+•       Данные страхователя: Фамилия, Имя, Отчество, Дата рождения, Пол
+•       Паспортные данные
+         */
         WebElement field = driver.findElement(By.id("surname_vzr_ins_0"));
         wait.until(ExpectedConditions.visibilityOf(field));
         fillField(By.id("surname_vzr_ins_0"), "Иванов");
         fillField(By.id("name_vzr_ins_0"), "Иван");
         fillField(By.id("birthDate_vzr_ins_0"), "20.10.1999");
 
+        Thread.sleep(3000);
+        fillField(By.id("person_lastName"), "Страховщиков");
+        fillField(By.id("person_firstName"), "Страховщик");
+        fillField(By.id("person_middleName"), "Страховщикович");
+        fillField(By.id("person_birthDate"), "10.06.1979");
+
+        Thread.sleep(3000);
+        driver.findElement(By.xpath("//*[text() = 'Женский']")).click();
+        fillField(By.id("passportSeries"), "4545");
+        fillField(By.id("passportNumber"), "200000");
+        fillField(By.id("documentDate"), "10.06.2019");
+        fillField(By.id("documentIssue"), "ТП УФМС AUTOTEST123");
+
+
+
         // Проверяем заполнение полей
         Assert.assertEquals("Иванов", driver.findElement(By.id("surname_vzr_ins_0")).getAttribute("value"));
         Assert.assertEquals("Иван", driver.findElement(By.id("name_vzr_ins_0")).getAttribute("value"));
         Assert.assertEquals("20.10.1999", driver.findElement(By.id("birthDate_vzr_ins_0")).getAttribute("value"));
+        Assert.assertEquals("Страховщиков", driver.findElement(By.id("person_lastName")).getAttribute("value"));
+        Assert.assertEquals("Страховщик", driver.findElement(By.id("person_firstName")).getAttribute("value"));
+        Assert.assertEquals("Страховщикович", driver.findElement(By.id("person_middleName")).getAttribute("value"));
+        Assert.assertEquals("10.06.1979", driver.findElement(By.id("person_birthDate")).getAttribute("value"));
+        Assert.assertEquals("4545", driver.findElement(By.id("passportSeries")).getAttribute("value"));
+        Assert.assertEquals("200000", driver.findElement(By.id("passportNumber")).getAttribute("value"));
+        Assert.assertEquals("10.06.2019", driver.findElement(By.id("documentDate")).getAttribute("value"));
+        Assert.assertEquals("ТП УФМС AUTOTEST123", driver.findElement(By.id("documentIssue")).getAttribute("value"));
 
         // Жмем "Продолжить"
         scroll.executeScript("window.scrollBy(0,1550)", "");
@@ -91,6 +118,7 @@ public class InsuranceTest {
                 driver.findElement(By.xpath("//*[@class = 'alert-form alert-form-error']")).getText());
         Assert.assertEquals("Поле не заполнено.",
                 driver.findElement(By.xpath("//*[text()='Поле не заполнено.']/..//*[@class = 'invalid-validate form-control__message']")).getText()); // не смог найти оригинальный xpath
+
 
     }
 

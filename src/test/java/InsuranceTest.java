@@ -27,7 +27,6 @@ public class InsuranceTest {
 //        driver.manage().window().maximize();
         driver.manage().window().fullscreen();
         driver.get(baseUrl);
-
     }
 
     @Test
@@ -53,7 +52,6 @@ public class InsuranceTest {
         //Проверяем наличие на странице заголовка – Страхование путешественников
         WebElement insuranceText = driver.findElement(By
                 .xpath("//*[@class = 'kitt-heading  page-teaser-dict__header kitt-heading_size_l']"));
-//        wait.until(ExpectedConditions.visibilityOf(insuranceText));
         Assert.assertEquals("Страхование путешественников", insuranceText.getText());
 
         // Жмем на кнопку
@@ -62,7 +60,6 @@ public class InsuranceTest {
         // Выбираем минимальный тариф
         driver.findElement(By.xpath("//*[@class = 'online-card-program selected']")).click();
 
-
         scroll.executeScript("window.scrollBy(0,250)", "");
         driver.findElement(By.xpath("//*[@class = 'col-xl-4 col-md-6 col-12']")).click();
 
@@ -70,7 +67,7 @@ public class InsuranceTest {
         scroll.executeScript("window.scrollBy(0, 1000)", "");
         driver.findElement(By.xpath("//*[@class = 'btn btn-primary btn-large']")).click();  // иногда не срабатывает c ChromeDriver? В Firefox - ок
 
-        // Вводим имя
+        // Вводим данные
         WebElement field = driver.findElement(By.id("surname_vzr_ins_0"));
         wait.until(ExpectedConditions.visibilityOf(field));
         fillField(By.id("surname_vzr_ins_0"), "Иванов");
@@ -82,11 +79,11 @@ public class InsuranceTest {
         Assert.assertEquals("Иван", driver.findElement(By.id("name_vzr_ins_0")).getAttribute("value"));
         Assert.assertEquals("20.10.1999", driver.findElement(By.id("birthDate_vzr_ins_0")).getAttribute("value"));
 
-        // Жмем Продолжить
+        // Жмем "Продолжить"
         scroll.executeScript("window.scrollBy(0,1550)", "");
         driver.findElement(By.xpath("//*[@class = 'btn btn-primary page__btn']")).click();
 
-        // Проверяем что не пропустило
+        // Проверяем появление ошибок заполнения
         scroll.executeScript("window.scrollBy(0,1550)", "");
         WebElement errorField = driver.findElement(By.xpath("//*[@class = 'alert-form alert-form-error']"));
         wait.until(ExpectedConditions.visibilityOf(errorField));

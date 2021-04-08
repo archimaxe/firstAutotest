@@ -22,7 +22,7 @@ public class InsuranceTest {
     @Before
     public void beforeTest() {
         baseUrl = "http://www.sberbank.ru/ru/person";
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //        driver.manage().window().maximize();
         driver.manage().window().fullscreen();
@@ -73,19 +73,21 @@ public class InsuranceTest {
         wait.until(ExpectedConditions.visibilityOf(field));
         fillField(By.id("surname_vzr_ins_0"), "Иванов");
         fillField(By.id("name_vzr_ins_0"), "Иван");
-        fillField(By.id("birthDate_vzr_ins_0"), "20.10.1999");
+        fillField(By.id("birthDate_vzr_ins_0"), "20.10.1999\n");
 
-        Thread.sleep(2000);
+//        Thread.sleep(2000);
         fillField(By.id("person_lastName"), "Страховщиков");
         fillField(By.id("person_firstName"), "Страховщик");
         fillField(By.id("person_middleName"), "Страховщикович");
         fillField(By.id("person_birthDate"), "10.06.1979");
+        driver.findElement(By.id("person_middleName")).click();
 
         Thread.sleep(2000);
         driver.findElement(By.xpath("//*[text() = 'Женский']")).click();
         fillField(By.id("passportSeries"), "4545");
         fillField(By.id("passportNumber"), "200000");
         fillField(By.id("documentDate"), "10.06.2019");
+        driver.findElement(By.id("passportNumber")).click();
         fillField(By.id("documentIssue"), "ТП УФМС AUTOTEST123");
 
         // Проверяем заполнение полей
@@ -103,7 +105,7 @@ public class InsuranceTest {
 
         // Жмем "Продолжить"
         scroll.executeScript("window.scrollBy(0,1550)", "");
-        driver.findElement(By.xpath("//*[@class = 'btn btn-primary page__btn']")).click();
+        driver.findElement(By.xpath("//*[@type = 'submit']")).click();
 
         // Проверяем появление ошибок заполнения
         scroll.executeScript("window.scrollBy(0,1050)", "");
